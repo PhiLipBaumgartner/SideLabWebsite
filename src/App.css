@@ -1,38 +1,166 @@
-.App {
-  text-align: center;
+/* Allgemeine Stile */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Linker Bereich */
+.left-section {
+  background-color: #555; /* Grau */
+  color: white;
+  flex: 0.5; /* Nimmt 50% des Bildschirms ein */
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  position: relative;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.logo {
+  font-size: 36px; /* Noch größere Schrift für das Logo */
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px; /* Mehr Abstand zwischen Links */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  font-size: 24px; /* Navigationstexte deutlich vergrößert */
+  cursor: pointer;
   color: white;
+  transition: color 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.nav-links li:hover {
+  color: #ddd; /* Hover-Effekt */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.text-content {
+  position: absolute;
+  top: 50%;
+  right: 20px; /* Rechtsbündig */
+  transform: translateY(-50%);
+  text-align: right;
+}
+
+.text-content h1 {
+  font-size: 80px; /* Deutlich größere Hauptüberschrift */
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Rechter Bereich */
+.right-section {
+  background-color: #d8d8f6; /* Lila */
+  flex: 0.5; /* Nimmt 50% des Bildschirms ein */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.image-laptop {
+  position: absolute;
+  width: 400px; /* Vergrößerte Laptop-Größe */
+  top: 15%; /* Feinanpassung der Position */
+  left: 10%;
+  z-index: 3;
+  transform: rotate(-10deg); /* Leichte Drehung für den Laptop */
+}
+
+.image-tablet {
+  position: absolute;
+  width: 320px; /* Größeres Tablet */
+  top: 40%;
+  left: 40%;
+  z-index: 2;
+  transform: rotate(0deg); /* Geradeaus */
+}
+
+.image-phone {
+  position: absolute;
+  width: 200px; /* Größeres Smartphone */
+  top: 60%;
+  left: 70%;
+  z-index: 1;
+  transform: rotate(10deg); /* Leichte Drehung */
+}
+
+/* Neuer Abschnitt: Team-Sektion */
+.team-section {
+  display: flex;
+  justify-content: center; /* Bild und Text horizontal zentrieren */
+  align-items: center; /* Vertikal zentrieren */
+  background-color: #f9f9f9;
+  padding: 100px 20px;
+  height: 100vh; /* Vollbildhöhe */
+}
+
+.team-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 50px;
+  max-width: 1200px;
+  width: 100%;
+  justify-content: center; /* Zentriert den Inhalt innerhalb des flex-Containers */
+}
+
+.team-image {
+  max-width: 80%; /* Bild auf 80% der Breite des Containers setzen */
+  height: auto;
+  border-radius: 10px;
+  opacity: 0;
+  transform: translateX(-100%); /* Bild beginnt von der linken Seite */
+  transition: transform 1s ease-out, opacity 1s ease-out;
+}
+
+.team-image.visible {
+  transform: translateX(0); /* Bild bewegt sich in den sichtbaren Bereich */
+  opacity: 1;
+}
+
+.team-text {
+  flex: 1;
+  text-align: left;
+  color: #333;
+}
+
+.team-text p {
+  font-size: 50px; /* "We are:" etwas dünner und kleiner */
+  margin-bottom: 20px;
+  font-weight: normal; /* Dünner als der Rest */
+}
+
+.team-text h2 {
+  font-size: 100px; /* Noch größerer Text für die Adjektive */
+  line-height: 1.4;
+  color: #6c63ff;
+  font-weight: bold; /* Der Rest bleibt fett */
 }
