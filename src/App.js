@@ -51,7 +51,17 @@ function App() {
               <li onClick={() => document.querySelector('.container').scrollIntoView({ behavior: 'smooth' })}>Home</li>
               <li onClick={() => document.querySelector('.team-section').scrollIntoView({ behavior: 'smooth' })}>About</li>
               <li onClick={() => document.querySelector('.demo-section').scrollIntoView({ behavior: 'smooth' })}>Projects</li>
-              <li onClick={() => document.querySelector('.contact-section').scrollIntoView({ behavior: 'smooth' })}>Contact</li>
+              <li onClick={() => {
+    if (!showContact) {
+      setShowContact(true);
+    }
+    setTimeout(() => {
+      document.querySelector('.contact-section')?.scrollIntoView({ behavior: 'smooth' });
+    }, 0); // Warten, bis das Formular gerendert wird
+  }}
+>
+  Contact
+</li>
             </ul>
           </nav>
           <div className="text-content">
@@ -129,36 +139,94 @@ function App() {
 
       {/* Kontakt-Sektion */}
       {showContact && (
-        <div className="contact-section" style={{ padding: "50px 20px", backgroundColor: "#f1f1f1" }}>
-          <h2 style={{ textAlign: "center", marginBottom: "30px" }}>Contact Us</h2>
-          <form onSubmit={handleSubmit} style={{ maxWidth: "600px", margin: "0 auto", display: "flex", flexDirection: "column" }}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              required
-              style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              required
-              style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
-            />
-            <textarea
-              name="message"
-              placeholder="Your Message"
-              required
-              rows="5"
-              style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
-            ></textarea>
-            <button type="submit" style={{ padding: "15px", backgroundColor: "#a2a2ca", color: "white", fontSize: "18px", cursor: "pointer" }}>
-              Send Message
-            </button>
-          </form>
-        </div>
-      )}
+  <div
+    className="contact-section"
+    style={{
+      padding: "50px 20px",
+      backgroundColor: "#f1f1f1",
+      position: "relative",
+      border: "1px solid #ccc",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    }}
+    ref={(ref) => {
+      if (ref) {
+        ref.scrollIntoView({ behavior: "smooth" }); 
+      }
+    }}
+  >
+    {/* Schließsymbol */}
+    <button
+      onClick={() => setShowContact(false)}
+      style={{
+        position: "absolute",
+        top: "15px",
+        right: "15px",
+        background: "##000000", 
+        border: "none",
+        color: "white",
+        fontSize: "24px",
+        fontWeight: "bold",
+        width: "40px",
+        height: "40px",
+        borderRadius: "50%", 
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", 
+      }}
+      title="Close Form"
+    >
+      ✖
+    </button>
+
+    <h2 style={{ textAlign: "center", marginBottom: "30px" }}>Contact Us</h2>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        maxWidth: "600px",
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        required
+        style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        required
+        style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
+      />
+      <textarea
+        name="message"
+        placeholder="Your Message"
+        required
+        rows="5"
+        style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
+      ></textarea>
+      <button
+        type="submit"
+        style={{
+          padding: "15px",
+          backgroundColor: "#a2a2ca",
+          color: "white",
+          fontSize: "18px",
+          cursor: "pointer",
+        }}
+      >
+        Send Message
+      </button>
+    </form>
+  </div>
+)}
 
       {/* Footer */}
       <footer style={{ backgroundColor: "#333", color: "white", padding: "20px", textAlign: "center" }}>
