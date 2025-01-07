@@ -12,7 +12,7 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Message sent!");
+    alert("Message sent!");                   
   };
 
   useEffect(() => {
