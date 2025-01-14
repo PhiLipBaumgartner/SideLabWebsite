@@ -1,30 +1,65 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./App.css";
+import { useForm, ValidationError } from "@formspree/react";
+import "./App.css"; // Importiere den alten CSS-Code
+
+function ContactForm() {
+  const [state, handleSubmit] = useForm("xjkklqqg"); // Deine Formspree-ID
+  if (state.succeeded) {
+    return <p>Thanks for reaching out! We'll get back to you soon.</p>;
+  }
+  return (
+    <form onSubmit={handleSubmit} className="contact-section-form">
+      <label htmlFor="email" className="form-label">
+        Email Address
+      </label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        className="form-input"
+        placeholder="Enter your email"
+        required
+      />
+      <ValidationError prefix="Email" field="email" errors={state.errors} />
+
+      <label htmlFor="message" className="form-label">
+        Your Message
+      </label>
+      <textarea
+        id="message"
+        name="message"
+        className="form-textarea"
+        placeholder="Write your message here..."
+        required
+      />
+      <ValidationError prefix="Message" field="message" errors={state.errors} />
+
+      <button type="submit" disabled={state.submitting} className="form-button">
+        Submit
+      </button>
+    </form>
+  );
+}
 
 function App() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [showContact, setShowContact] = useState(false); // Zustand für die Kontaktanzeige
+  const [showContact, setShowContact] = useState(false);
   const teamImageRef = useRef(null);
 
-  const handleNavigation = (page) => {
-    alert(`Navigating to: ${page}`);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Message sent!");                   
+  const toggleContactForm = () => {
+    setShowContact(!showContact);
   };
 
   useEffect(() => {
     const handleScroll = () => {
-      const imagePosition = teamImageRef.current.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
+      const scrollElements = document.querySelectorAll(".scroll-reveal");
+      scrollElements.forEach((el) => {
+        const position = el.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
 
-      if (imagePosition < windowHeight * 0.75) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+        if (position < windowHeight * 0.75) {
+          el.classList.add("visible");
+        }
+      });
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -35,34 +70,62 @@ function App() {
     };
   }, []);
 
-  // Funktion, um die Sichtbarkeit des Kontaktformulars zu steuern
-  const toggleContactForm = () => {
-    setShowContact(!showContact);
-  };
-
   return (
     <div>
       {/* Oberer Bereich */}
       <div className="container">
         <div className="left-section">
           <nav className="navbar">
-            <span className="logo">Logo</span>
             <ul className="nav-links">
-              <li onClick={() => document.querySelector('.container').scrollIntoView({ behavior: 'smooth' })}>Home</li>
-              <li onClick={() => document.querySelector('.team-section').scrollIntoView({ behavior: 'smooth' })}>About</li>
-              <li onClick={() => document.querySelector('.demo-section').scrollIntoView({ behavior: 'smooth' })}>Projects</li>
-              <li onClick={() => {
-    if (!showContact) {
-      setShowContact(true);
-    }
-    setTimeout(() => {
-      document.querySelector('.contact-section')?.scrollIntoView({ behavior: 'smooth' });
-    }, 0); // Warten, bis das Formular gerendert wird
-  }}
->
-  Contact
-</li>
+              <li
+                onClick={() =>
+                  document.querySelector(".container").scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                Home
+              </li>
+              <li
+                onClick={() =>
+                  document.querySelector(".team-section").scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                About
+              </li>
+              <li
+                onClick={() =>
+                  document.querySelector(".demo-section").scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                Projects
+              </li>
+              <li
+                onClick={() => {
+                  if (!showContact) {
+                    setShowContact(true);
+                  }
+                  setTimeout(() => {
+                    document.querySelector(".contact-section")?.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }, 0);
+                }}
+              >
+                Contact
+              </li>
             </ul>
+            <img
+  src="/SiteLabLogo.png"
+  alt="SiteLab Logo"
+  style={{
+    position: "absolute", // Position relativ zur Navbar
+    top: "20px",          // Abstand von oben innerhalb der Navbar
+    right: "-600px",        // Abstand von rechts innerhalb der Navbar
+    width: "100px",       // Breite des Logos
+    height: "auto",       // Höhe automatisch basierend auf Breite
+    zIndex: 10,           // Sicherstellen, dass es über anderen Elementen liegt
+  }}
+/>
+
           </nav>
           <div className="text-content">
             <h1>
@@ -77,17 +140,17 @@ function App() {
             <img
               src="https://via.placeholder.com/700x400"
               alt="Laptop placeholder"
-              className="image-laptop"
+              className="image-laptop scroll-reveal"
             />
             <img
               src="https://via.placeholder.com/400x500"
               alt="Tablet placeholder"
-              className="image-tablet"
+              className="image-tablet scroll-reveal"
             />
             <img
               src="https://via.placeholder.com/200x400"
               alt="Phone placeholder"
-              className="image-phone"
+              className="image-phone scroll-reveal"
             />
           </div>
         </div>
@@ -99,10 +162,10 @@ function App() {
           <img
             src="/group2.jpg"
             alt="Team"
-            className={`team-image ${isVisible ? "visible" : ""}`}
+            className="team-image scroll-reveal"
             ref={teamImageRef}
           />
-          <div className="team-text" style={{ marginLeft: "-50px" }}>
+          <div className="team-text scroll-reveal" style={{ marginLeft: "-90px" }}>
             <p>We are:</p>
             <h2>
               DRIVEN<br />
@@ -115,7 +178,7 @@ function App() {
 
       {/* Demo-Sektion */}
       <div className="demo-section">
-        <div className="demo-left">
+        <div className="demo-left scroll-reveal">
           <h2>Website Demo</h2>
           <p>
             <a href="#" style={{ textDecoration: "underline", color: "blue" }}>
@@ -123,7 +186,7 @@ function App() {
             </a>
           </p>
         </div>
-        <div className="demo-right">
+        <div className="demo-right scroll-reveal">
           <h1>A-TEAM</h1>
           <p>
             With our first project, we were able to put our
@@ -139,111 +202,26 @@ function App() {
 
       {/* Kontakt-Sektion */}
       {showContact && (
-  <div
-    className="contact-section"
-    style={{
-      padding: "50px 20px",
-      backgroundColor: "#f1f1f1",
-      position: "relative",
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    }}
-    ref={(ref) => {
-      if (ref) {
-        ref.scrollIntoView({ behavior: "smooth" }); 
-      }
-    }}
-  >
-    {/* Schließsymbol */}
-    <button
-      onClick={() => setShowContact(false)}
-      style={{
-        position: "absolute",
-        top: "15px",
-        right: "15px",
-        background: "##000000", 
-        border: "none",
-        color: "white",
-        fontSize: "24px",
-        fontWeight: "bold",
-        width: "40px",
-        height: "40px",
-        borderRadius: "50%", 
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", 
-      }}
-      title="Close Form"
-    >
-      ✖
-    </button>
-
-    <h2 style={{ textAlign: "center", marginBottom: "30px" }}>Contact Us</h2>
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        maxWidth: "600px",
-        margin: "0 auto",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <input
-        type="text"
-        name="name"
-        placeholder="Your Name"
-        required
-        style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Your Email"
-        required
-        style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
-      />
-      <textarea
-        name="message"
-        placeholder="Your Message"
-        required
-        rows="5"
-        style={{ padding: "10px", marginBottom: "15px", fontSize: "16px" }}
-      ></textarea>
-      <button
-        type="submit"
-        style={{
-          padding: "15px",
-          backgroundColor: "#a2a2ca",
-          color: "white",
-          fontSize: "18px",
-          cursor: "pointer",
-        }}
-      >
-        Send Message
-      </button>
-    </form>
-  </div>
-)}
+        <div className="contact-section">
+          <ContactForm />
+        </div>
+      )}
 
       {/* Footer */}
-      <footer style={{ backgroundColor: "#333", color: "white", padding: "20px", textAlign: "center" }}>
+      <footer>
         <p>
-          Visit our <a href="https://employeeapp-314.peopleos.haufe.io/marketplace/explore/project-opportunity/de80a30b-dfcd-4af8-a931-13d92578bbba" style={{ color: "#a2a2ca", textDecoration: "none" }}>Marketplace</a> for more projects and resources.
+          Visit our{" "}
+          <a
+            href="https://employeeapp-314.peopleos.haufe.io/marketplace/explore/project-opportunity/de80a30b-dfcd-4af8-a931-13d92578bbba"
+          >
+            Marketplace
+          </a>{" "}
+          for more projects and resources.
         </p>
-        <button
-          onClick={toggleContactForm}
-          style={{ padding: "10px 20px", backgroundColor: "#a2a2ca", color: "white", border: "none", cursor: "pointer", fontSize: "16px" }}
-        >
-          Contact Us
-        </button>
+        <button onClick={toggleContactForm}>Contact Us</button>
       </footer>
     </div>
   );
 }
 
 export default App;
-
-

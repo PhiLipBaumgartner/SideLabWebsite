@@ -35,6 +35,17 @@ body {
   font-weight: bold;
 }
 
+/* Logo-Styling */
+.navbar img {
+  position: fixed;
+  top: 20px; /* Abstand von oben */
+  right: 20px; /* Abstand von rechts */
+  width: 100px; /* Breite des Logos */
+  height: auto; /* Automatische Höhe */
+  z-index: 1000; /* Sicherstellen, dass es immer sichtbar ist */
+}
+
+
 .nav-links {
   list-style: none;
   display: flex;
@@ -70,7 +81,7 @@ body {
   color: #FAFAFA;
 }
 
-/* Rechte Sektion (Bild) */
+/* Rechte Sektion (Bilder) */
 .right-section {
   background-color: #FAFAFA;
   flex: 0.5;
@@ -91,12 +102,14 @@ body {
   top: 15%;
   left: 10%;
   transform: rotate(-10deg);
+  animation: fadeInFromRight 1.5s ease-out;
 }
 
 .image-tablet {
   width: 300px;
   top: 40%;
   left: 40%;
+  animation: fadeInFromRight 2s ease-out;
 }
 
 .image-phone {
@@ -104,6 +117,7 @@ body {
   top: 60%;
   left: 70%;
   transform: rotate(10deg);
+  animation: fadeInFromRight 2.5s ease-out;
 }
 
 /* Team-Sektion */
@@ -121,7 +135,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 50px;
+  gap: 100px; /* Mehr Abstand zwischen Bild und Text */
   max-width: 1200px;
   width: 100%;
 }
@@ -211,6 +225,7 @@ body {
   background-color: #FAFAFA;
   color: #333333;
   padding: 50px 20px;
+  animation: bounceIn 1s ease-in-out;
 }
 
 .contact-section h2 {
@@ -231,7 +246,7 @@ body {
   padding: 10px;
   margin-bottom: 10px;
   font-size: 14px;
-  border: 1px solid #333333; /* Dunkler Rand */
+  border: 1px solid #001155; /* Dunkler Rand */
   border-radius: 5px;
 }
 
@@ -246,12 +261,12 @@ body {
 }
 
 .contact-section button:hover {
-  background-color: #333333;
+  background-color: #001155;
 }
 
 /* Footer */
 footer {
-  background-color: #001155;
+  background-color: #001155; /* Dunkelblauer Footer */
   color: #FAFAFA;
   padding: 20px;
   text-align: center;
@@ -277,8 +292,14 @@ footer button:hover {
   color: #FAFAFA;
 }
 
-.contact-section {
-  background-color: #f9f9f9;
-  padding: 50px 20px;
-  animation: bounceIn 1s ease-in-out; /* Kontaktformular springt rein */
+/* Keyframes für Animationen */
+@keyframes fadeInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
